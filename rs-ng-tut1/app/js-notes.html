@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Understanding JavaScript</title>
+</head>
+    <ul>
+        <li>
+            <ul>
+                <li>Syntex Parser</li>
+                <li>Execution Context</li>
+                <li>lexical</li>
+            </ul>
+        </li>
+        <li>
+            Name/Value Pairs - Name that mapped to unique Values...<br/>
+                Example : FirstName = 'Ravi' , LastName = 'Sharma'
+        </li>
+        <li>
+            Objects - It is a collections of Name/Value pairs. Simplest definition in JavaScript<br/>
+             Example  : {firstName : 'Ravi' , lastName = 'Sharma'}
+         </li>
+        <li>Javascript runtime engine creates -
+                <ul>
+                    <li>
+                    Global Execution Context
+                    </li>
+                    <li> <code>this</code> - Incase of Broswer it is pointing to window object i.e a Global Object </li>
+                </ul>
+              Include empty app.js file into any html file and open that file into browser.<br>
+            <code>console.log(this);</code>
+            <code>console.log(window);</code>
+            both will be same
+            And a outer environment is null....
+        </li>
+        <li>Execution Context : Creation and Hoisting<br>
+            <ul>
+             <li>Creation Phase
+                <ul>
+                    <li>Global Object </li>
+                    <li> this </li>
+                    <li> outer environment</li>
+                    <li>
+                            Setup memory space for variables and functions - This is called "HOISTING"<br/>
+                            All variables value are set as
+                              <code>'undefined' - It is a special value a javascript runtime
+                              set for variables during creation phase.
+                                  <br/>
+                                      var a ;
+                                       if( a === undefined) {
+                                            console.log('a is undefined !');
+                                       }
+                                       else{
+                                         console.log('a is defined');
+                                        }
+                                  <br/>
+                                  <br/>
+                                      var a = 'Ravi Sharma';
+                                      if( a === undefined) {
+                                      console.log('a is undefined !');
+                                      }
+                                      else{
+                                      console.log('a is defined');
+                                      }
+                                  <br/>
+                                  <br/>
+                                    console.log(a);
+                              </code>
+                                     <br/>
+                                     This will give error as 'a is not defined ' !!!
+                                     This is different...It means a is not defined as variable.
+                                     It is not same as undefined....undefined is special value set for variables if it is not initialized...<br/>
+                                     It is also a keyword in Javascript and as a programmer never set a variable as value undefined
+                                  <br/>
+                      </li>
+                </ul>
+             </li>
+             <li> Code Execution Phase - In this phase Javascript engine run the code line by line
+                 <ul>
+                     <li>Single Threaded - One command at a time...may not be under the hood of the browser</li>
+                     <li>Synchronous execution - one at a time and in order </li>
+                     <li>
+                         <code>
+                             console.log(a);
+                             var a = 'Ravi';
+                             console.log(a);
+                         </code>
+                     </li>
+                 </ul>
+
+             </li>
+            </ul>
+        </li>
+        <li> Function Invocation and Execution Stack
+            <ul>
+                <li>
+                    Invocation - Running a function - In Javascript , by using parenthesis ()
+                </li>
+                <li> Execution stack - Every time a function is invoke a execution context is created in the stack...
+                    <table border="1px">
+                        <tr>
+                            <td>
+                                <code>
+                                        function fn2(){ console.log('fn2');}
+                                         <br/>
+                                         function fn1(){ fn2();}
+                                         <br/>
+                                         fn1();
+                                 </code>
+
+                            </td>
+                            <td>
+                                 This create a three execution contexts in the stack , in following order
+                                <ul>
+                                    <li>Execution context for fn2()</li>
+                                    <li>Execution context for fn1()</li>
+                                    <li>Global Execution context and this </li>
+                                </ul>
+
+                            </td>
+                            <td>
+                             Stack Top ->  |fn2 execution context | fn1 execution context |  Global execution context |
+                            </td>
+                        </tr>
+                    </table>
+
+                </li>
+            </ul>
+        </li>
+        <li>
+            Functions , Context and Variables Environment
+            <ul>
+                <li>Variable Environment
+                    <table border="1px">
+                        <tr>
+                            <td>
+                                <code>
+                                    function fn2(){  var myvar ; console.log(myVar);}<br/>
+                                    function fn1(){  var myvar  = 2 ; console.log(myVar); fn2();}<br/>
+                                    var myVar = 1 ; <br/>
+                                    fn1(); <br/>
+                                    console.log(myVar);
+                                </code>
+                            </td>
+                            <td> stack top -->
+                                               | fn2 context --> myVar is undefined | <br/>
+                                               | fn1 context --> myVar = 2 | <br/>
+                                               | Global context --> myVar = 1 | <br/>
+                            </td>
+                        </tr>
+                     </table>
+
+                </li>
+
+            </ul>
+        <li>Scope Chain - Understand
+            <table border="1px">
+                <tr>
+                    <td>
+                        function fn2(){ console.log(myVar);}<br/>
+                        function fn1(){  var myvar  = 2 ; fn2();}<br/>
+                        var myVar = 1 ; <br/>
+                        fn1(); <br/>
+                    </td>
+                    <td>
+                        stack top -->
+                        | fn2 context -->  | <br/>
+                        | fn1 context --> myVar = 2 | <br/>
+                        | Global context --> myVar = 1 | <br/>
+
+                    </td>
+                    <td>
+                         Function Execution context has reference to it outer environment
+                         Here fn2 has reference to it outer context i.e Global Context
+                         because fn2 sits lexically on the top of Global environment so it gets the myVar value as 1.
+                    </td>
+                </tr>
+            </table>
+        </li>
+        </li>
+    </ul>
+</body>
+</html>
